@@ -18,4 +18,4 @@ LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
 RUN npm install pm2 -g
 
 # default command: display PM2 version
-CMD [ "pm2", "--version" ]
+CMD [ "pm2-runtime", "--version" ]
