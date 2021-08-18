@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# Simple wrapper for executing ansible-galaxy and ansible-playbook.
-#
-echo "PM2 installed"
-
-exec "$@"

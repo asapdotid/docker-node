@@ -15,7 +15,12 @@ LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
       org.label-schema.description="NodeJS on alpine docker image" \
       org.label-schema.schema-version="1.0"
 
-RUN npm install pm2 -g
+RUN apk --no-cache add curl
 
-# default command: display PM2 version
-CMD [ "pm2-runtime", "--version" ]
+RUN curl -sf https://gobinaries.com/tj/node-prune | sh
+
+RUN apk del curl && \
+  rm -rf /tmp/*
+
+# default command
+CMD [ "node" ]
