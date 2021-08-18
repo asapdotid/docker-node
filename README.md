@@ -1,6 +1,6 @@
 # Docker NodeJs base image (Node Prune)
 
-![Docker Automated build](https://img.shields.io/docker/automated/asapdotid/node-alpine) [![Docker Pulls](https://img.shields.io/docker/pulls/asapdotid/node-alpine.svg)](https://hub.docker.com/r/asapdotid/node-alpine/)
+![Docker Automated build](https://img.shields.io/docker/automated/asapdotid/node-alpine) ![Docker Pulls](https://img.shields.io/docker/pulls/asapdotid/node-alpine.svg)
 
 ## Additional services
 
