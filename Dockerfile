@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:14-alpine
 
 # Metadata params
 ARG BUILD_DATE
