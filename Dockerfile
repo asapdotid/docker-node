@@ -19,6 +19,7 @@ RUN apk --no-cache add git make automake g++ curl autoconf libtool libpng-dev na
 
 RUN curl -sf https://gobinaries.com/tj/node-prune | sh
 
+RUN rm -rf /var/cache/apk/*
 RUN rm -rf /tmp/*
 
 # default command
