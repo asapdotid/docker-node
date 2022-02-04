@@ -1,0 +1,59 @@
+FROM node:14-buster-slim
+
+# Metadata params
+ARG BUILD_DATE
+ARG VCS_REF
+ARG TIMEZONE
+ARG DEBIAN_FRONTEND="noninteractive"
+ARG DEBCONF_NOWARNINGS="yes"
+ARG DEBCONF_TERSE="yes"
+ARG APT="apt-get -qq -y"
+ARG LANG="C.UTF-8"
+
+
+# Metadata
+LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
+      org.label-schema.url="https://gitlab.com/asap-labs/docker-node-alpine/-/blob/main/README.md" \
+      org.label-schema.build-date=${BUILD_DATE} \
+      org.label-schema.version=lts-alpine \
+      org.label-schema.vcs-url="https://gitlab.com/asap-labs/docker-node-alpine.git" \
+      org.label-schema.vcs-ref=${VCS_REF} \
+      org.label-schema.docker.dockerfile="/Dockerfile" \
+      org.label-schema.description="NodeJS on alpine docker image" \
+      org.label-schema.schema-version="1.0"
+
+# Configure APT
+RUN set -x \
+      && echo "debconf debconf/frontend select ${DEBIAN_FRONTEND}" | debconf-set-selections \
+      && echo 'APT::Install-Recommends "false";' | tee /etc/apt/apt.conf.d/99install-recommends \
+      && echo 'APT::Get::Assume-Yes "true";' | tee /etc/apt/apt.conf.d/99assume-yes \
+      && sed -Ei 's|^(DPkg::Pre-Install-Pkgs .*)|#\1|g' /etc/apt/apt.conf.d/70debconf \
+      && debconf-show debconf
+
+# Install Packages
+RUN set -x \
+      && mv /etc/apt/apt.conf.d/70debconf . \
+      && ${APT} update \
+      && ${APT} install apt-utils >/dev/null \
+      && mv 70debconf /etc/apt/apt.conf.d \
+      && ${APT} upgrade >/dev/null \
+      && ${APT} install git wget curl autoconf libtool make automake autoconf g++ >/dev/null \
+      && ${APT} install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev >/dev/null
+
+ENV TZ=${TIMEZONE}
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+      && echo $TZ > /etc/timezone
+
+RUN curl -sf https://gobinaries.com/tj/node-prune | sh
+
+RUN npm cache clean --force \
+      && apt-get clean \
+      && apt-get autoremove \
+      && rm -rf /var/lib/apt/lists/* \
+      && rm -rf /tmp/* \
+      && rm -rf /var/tmp/*
+
+WORKDIR /app
+
+# default command
+CMD [ "node" ]

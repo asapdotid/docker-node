@@ -3,6 +3,8 @@ FROM node:14-alpine
 # Metadata params
 ARG BUILD_DATE
 ARG VCS_REF
+ARG TIMEZONE
+ARG LANG="C.UTF-8"
 
 # Metadata
 LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
@@ -15,12 +17,21 @@ LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
       org.label-schema.description="NodeJS on alpine docker image" \
       org.label-schema.schema-version="1.0"
 
-RUN apk --no-cache add git make automake g++ curl autoconf libtool libpng-dev nasm
+RUN apk --update --no-cache add git make automake g++ curl autoconf libtool libpng-dev nasm >/dev/null
+
+ENV TZ=${TIMEZONE}
+RUN apk add tzdata \
+      && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+      && echo '$TZ' > /etc/timezone \
+      && apk del tzdata
 
 RUN curl -sf https://gobinaries.com/tj/node-prune | sh
 
-RUN rm -rf /var/cache/apk/*
-RUN rm -rf /tmp/*
+RUN npm cache clean --force --loglevel=error \
+      && rm -rf /var/cache/apk/* \
+      && rm -rf /tmp/*
+
+WORKDIR /app
 
 # default command
 CMD [ "node" ]
