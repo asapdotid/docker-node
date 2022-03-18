@@ -3,13 +3,13 @@ FROM node:14-buster-slim
 # Metadata params
 ARG BUILD_DATE
 ARG VCS_REF
-ARG TIMEZONE
+ARG TIMEZONE=Asia/Jakarta
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG DEBCONF_NOWARNINGS="yes"
 ARG DEBCONF_TERSE="yes"
 ARG APT="apt-get -qq -y"
 ARG LANG="C.UTF-8"
-
+ENV LIBVIPS_VERSION=8.10.1
 
 # Metadata
 LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
@@ -37,21 +37,25 @@ RUN set -x \
       && ${APT} install apt-utils >/dev/null \
       && mv 70debconf /etc/apt/apt.conf.d \
       && ${APT} upgrade >/dev/null \
-      && ${APT} install git wget curl autoconf libtool make automake autoconf g++ >/dev/null \
-      && ${APT} install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev >/dev/null
+      && ${APT} install --no-install-recommends git wget curl autoconf libtool make automake autoconf g++ >/dev/null \
+      && ${APT} install --no-install-recommends build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev libvips-tools >/dev/null
 
 ENV TZ=${TIMEZONE}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
       && echo $TZ > /etc/timezone
 
+RUN export GIT_SSL_NO_VERIFY=1 \
+    && git config --global http.sslVerify false
+
+RUN npm config set unsafe-perm true
+RUN npm i -g npm --prefix /usr/local
 RUN curl -sf https://gobinaries.com/tj/node-prune | sh
+RUN yarn global add rimraf@latest --prefix /usr/local
 
 RUN npm cache clean --force \
       && apt-get clean \
-      && apt-get autoremove \
-      && rm -rf /var/lib/apt/lists/* \
-      && rm -rf /tmp/* \
-      && rm -rf /var/tmp/*
+      && apt-get -y --purge autoremove \
+      && rm -rf /usr/share/doc /usr/share/man /var/lib/apt/lists/* /root/* /tmp/* /var/tmp/*
 
 WORKDIR /app
 
