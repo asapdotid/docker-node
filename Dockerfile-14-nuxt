@@ -1,0 +1,31 @@
+FROM node:14-alpine
+
+# Metadata params
+ARG BUILD_DATE
+ARG VCS_REF
+ARG TIMEZONE=Asia/Jakarta
+
+# Metadata
+LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
+      org.label-schema.url="https://gitlab.com/asap-labs/docker-node/-/blob/main/README.md" \
+      org.label-schema.build-date=${BUILD_DATE} \
+      org.label-schema.version=14-alpine \
+      org.label-schema.vcs-url="https://gitlab.com/asap-labs/docker-node.git" \
+      org.label-schema.vcs-ref=${VCS_REF} \
+      org.label-schema.docker.dockerfile="/Dockerfile" \
+      org.label-schema.description="NodeJS on Frontend (nuxt-start & PM2) docker image" \
+      org.label-schema.schema-version="1.0"
+
+RUN apk add --no-cache git make automake g++ curl autoconf libtool libpng-dev nasm tzdata >/dev/null
+
+ENV TZ=${TIMEZONE}
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
+
+RUN yarn global add pm2@latest --prefix /usr/local
+RUN yarn global add nuxt-start@latest --prefix /usr/local
+
+RUN rm -rf /var/cache/apk/*
+RUN rm -rf /tmp/*
+
+# default command
+CMD [ "node" ]
