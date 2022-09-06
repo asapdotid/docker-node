@@ -4,6 +4,7 @@ FROM node:14-alpine
 ARG BUILD_DATE
 ARG VCS_REF
 ARG TIMEZONE=Asia/Jakarta
+ENV NODE_ENV=production
 
 # Metadata
 LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \

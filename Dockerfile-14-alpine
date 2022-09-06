@@ -5,16 +5,17 @@ ARG BUILD_DATE
 ARG VCS_REF
 ARG LANG="C.UTF-8"
 ARG TIMEZONE=Asia/Jakarta
+ENV NODE_ENV=production
 
 # Metadata
 LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
-      org.label-schema.url="https://gitlab.com/asap-labs/docker-nodejs/-/blob/main/README.md" \
+      org.label-schema.url="https://gitlab.com/asap-labs/docker-node/-/blob/main/README.md" \
       org.label-schema.build-date=${BUILD_DATE} \
       org.label-schema.version=14-alpine \
-      org.label-schema.vcs-url="https://gitlab.com/asap-labs/docker-nodejs.git" \
+      org.label-schema.vcs-url="https://gitlab.com/asap-labs/docker-node.git" \
       org.label-schema.vcs-ref=${VCS_REF} \
       org.label-schema.docker.dockerfile="/Dockerfile-14-alpine" \
-      org.label-schema.description="NodeJS on alpine docker image" \
+      org.label-schema.description="NodeJS on 14 LST alpine docker image" \
       org.label-schema.schema-version="1.0"
 
 RUN apk --update --no-cache add git make automake g++ curl autoconf libtool libpng-dev cairo-dev jpeg-dev pango-dev giflib-dev nasm vips tzdata >/dev/null
