@@ -265,7 +265,7 @@ deploy:staging:
     script:
         - echo "Start deploy to the server"
         - |
-            echo "Script to deploy build source.. (bash scriptor ansible script"
+            echo "Script to deploy build source.. (bash script or ansible script"
         - echo "Done deploy to the server"
     retry:
         max: 2
