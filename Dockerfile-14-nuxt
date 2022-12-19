@@ -29,4 +29,4 @@ RUN rm -rf /var/cache/apk/*
 RUN rm -rf /tmp/*
 
 # default command
-CMD [ "node" ]
+CMD [ "node", "--version" ]
