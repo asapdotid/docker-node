@@ -38,4 +38,4 @@ RUN npm cache clean --force --loglevel=error \
 WORKDIR /app
 
 # default command
-CMD [ "node" ]
+CMD [ "node", "--version" ]

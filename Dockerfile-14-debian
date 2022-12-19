@@ -1,4 +1,4 @@
-FROM node:16-buster-slim
+FROM node:14-bullseye-slim
 
 # Metadata params
 ARG BUILD_DATE
@@ -9,18 +9,17 @@ ARG DEBCONF_NOWARNINGS="yes"
 ARG DEBCONF_TERSE="yes"
 ARG APT="apt-get -qq -y"
 ARG LANG="C.UTF-8"
-ENV LIBVIPS_VERSION=8.10.1
 ENV NODE_ENV=production
 
 # Metadata
 LABEL maintainer="Asapdotid <asapdotid@gmail.com>" \
       org.label-schema.url="https://gitlab.com/asap-labs/docker-node/-/blob/main/README.md" \
       org.label-schema.build-date=${BUILD_DATE} \
-      org.label-schema.version=16-buster \
+      org.label-schema.version=lts-debian \
       org.label-schema.vcs-url="https://gitlab.com/asap-labs/docker-node.git" \
       org.label-schema.vcs-ref=${VCS_REF} \
-      org.label-schema.docker.dockerfile="/Dockerfile-16-buster" \
-      org.label-schema.description="NodeJS on 16 LTS Buster SLim docker image" \
+      org.label-schema.docker.dockerfile="/Dockerfile-14-debian" \
+      org.label-schema.description="NodeJS on 14 LST Debian docker image" \
       org.label-schema.schema-version="1.0"
 
 # Configure APT
@@ -46,7 +45,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
       && echo $TZ > /etc/timezone
 
 RUN export GIT_SSL_NO_VERIFY=1 \
-    && git config --global http.sslVerify false
+      && git config --global http.sslVerify false
 
 RUN npm config set unsafe-perm true
 RUN npm i -g npm --prefix /usr/local
@@ -61,4 +60,4 @@ RUN npm cache clean --force \
 WORKDIR /app
 
 # default command
-CMD [ "node" ]
+CMD [ "node", "--version" ]
