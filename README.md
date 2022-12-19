@@ -161,6 +161,8 @@ PM2 Config:
 
 ### GitLab CI (`gitlab-ci.yml`)
 
+Please see `setup & build` job stage, how to use the image.
+
 Sample `gitlab-ci.yml` file for CI/CD **NuxtJS** App (`staging` branch):
 
 ```yaml
