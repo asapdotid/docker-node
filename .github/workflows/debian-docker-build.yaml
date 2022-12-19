@@ -1,6 +1,6 @@
 ---
 # template source: https://github.com/bretfisher/docker-build-workflow/blob/main/templates/call-docker-build.yaml
-name: Docker Build for Alpine Linux
+name: Docker Build for Debian Linux
 
 on:
   push:
@@ -17,8 +17,8 @@ on:
       - ".github/linters/**"
 
 jobs:
-  call-docker-build-alpine-node-14:
-    name: Call Docker Build Alpine Node 14
+  call-docker-build-debian-node-14:
+    name: Call Docker Build Debian Node 14
 
     uses: bretfisher/docker-build-workflow/.github/workflows/reusable-docker-build.yaml@main
 
@@ -50,14 +50,14 @@ jobs:
       ### https://github.com/docker/metadata-action#tags-input
       ### defaults to:
       tag-rules: |
-        type=raw,value=14-alpine,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
+        type=raw,value=14-debian,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
 
       ### path to where docker should copy files into image
       ### defaults to root of repository (.)
       # context: .
 
       ### Dockerfile alternate name. Default is Dockerfile (relative to context path)
-      file: Dockerfile-14-alpine
+      file: Dockerfile-14-debian
 
       ### build stage to target, defaults to empty, which builds to last stage in Dockerfile
       # target:
@@ -71,8 +71,8 @@ jobs:
       ### defaults to true
       # comment-enable: false
 
-  call-docker-build-alpine-node-16:
-    name: Call Docker Build Alpine Node 16
+  call-docker-build-debian-node-16:
+    name: Call Docker Build Debian Node 16
 
     uses: bretfisher/docker-build-workflow/.github/workflows/reusable-docker-build.yaml@main
 
@@ -104,14 +104,14 @@ jobs:
       ### https://github.com/docker/metadata-action#tags-input
       ### defaults to:
       tag-rules: |
-        type=raw,value=16-alpine,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
+        type=raw,value=16-debian,enable=${{ endsWith(github.ref, github.event.repository.default_branch) }}
 
       ### path to where docker should copy files into image
       ### defaults to root of repository (.)
       # context: .
 
       ### Dockerfile alternate name. Default is Dockerfile (relative to context path)
-      file: Dockerfile-16-alpine
+      file: Dockerfile-16-debian
 
       ### build stage to target, defaults to empty, which builds to last stage in Dockerfile
       # target:
